@@ -1,0 +1,19 @@
+{
+  "name": "playwright-login-demo",
+  "version": "1.0.0",
+  "description": "Playwright + TypeScript + Mocha login automation example",
+  "scripts": {
+    "test": "mocha",
+    "test:headed": "HEADED=true mocha",
+    "install:browsers": "npx playwright install chromium"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.44.0",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "^20.12.0",
+    "mocha": "^10.4.0",
+    "playwright": "^1.44.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  }
+}
