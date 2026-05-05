@@ -54,9 +54,7 @@ npm run test:headed
 | 1 | Page load | Login form is visible |
 | 2 | Valid credentials | Success flash + redirect to /secure |
 | 3 | Invalid username | "Your username is invalid!" |
-| 4 | Invalid password | "Your password is invalid!" |
-| 5 | Empty fields | Validation error shown |
-| 6 | Logout | Logout flash + redirect to /login |
+| 4 | Logout | Logout flash + redirect to /login |
 
 ---
 

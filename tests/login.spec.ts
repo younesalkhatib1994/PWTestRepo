@@ -34,17 +34,22 @@ describe('Login Page', () => {
 
   // ── Test Cases ────────────────────────────────────────────────────────────
 
-  it('positive scenario: logs in successfully with valid credentials', async () => {
+  it('positive scenario: logs in successfully with valid credentials and logs out', async () => {
     await loginPage.login('tomsmith', 'SuperSecretPassword!');
 
-    const flash = await loginPage.getFlashMessage();
+    let flash = await loginPage.getFlashMessage();
     assert.ok(
       flash.includes('You logged into a secure area!'),
       `Expected success message, got: "${flash}"`
     );
 
-    const url = loginPage.page.url();
+    let url = loginPage.page.url();
     assert.ok(url.includes('/secure'), `Expected /secure URL, got: ${url}`);
+
+    await loginPage.logout();
+
+    url = loginPage.page.url();
+    assert.ok(url.includes('/login'), `Expected /login URL after logout, got: ${url}`);
   });
 
   it('negative scenario: shows an error with invalid credentials', async () => {
