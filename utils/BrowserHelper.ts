@@ -13,6 +13,7 @@ export class BrowserHelper {
   async launch(): Promise<void> {
     this.browser = await chromium.launch({
       headless: process.env.HEADED !== 'true',
+      slowMo: 100,
     });
   }
 
