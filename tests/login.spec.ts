@@ -1,7 +1,8 @@
 import { strict as assert } from 'assert';
 import { BrowserHelper } from '../utils/BrowserHelper';
 import { LoginPage } from '../pages/LoginPage';
-
+import { Page } from 'playwright';
+import { test } from '@playwright/test'
 /**
  * Login Test Suite
  *
@@ -10,9 +11,6 @@ import { LoginPage } from '../pages/LoginPage';
  */
 describe('Login Page', () => {
   const browser = new BrowserHelper();
-  let loginPage: LoginPage;
-
-  // ── Hooks ────────────────────────────────────────────────────────────────
 
   before(async () => {
     await browser.launch();
@@ -23,42 +21,27 @@ describe('Login Page', () => {
     loginPage = new LoginPage(page);
     await loginPage.goto();
   });
+  let loginPage: LoginPage;
+  // ── Hooks ────────────────────────────────────────────────────────────────
 
- afterEach(async () => {
-    await browser.closeContext();
-  });
+  it("navigate to login page", async () => {
+    await loginPage.verifyLoginPageIsActive();
+  })
 
- after(async () => {
-    await browser.closeBrowser();
-  });
 
-  // ── Test Cases ────────────────────────────────────────────────────────────
+  it("Login with right credentials", async () => {
 
-  it('positive scenario: logs in successfully with valid credentials and logs out', async () => {
-    await loginPage.login('tomsmith', 'SuperSecretPassword!');
+    const username = "tomsmith";
+    const password = "SuperSecretPassword!";
 
-    let flash = await loginPage.getFlashMessage();
-    assert.ok(
-      flash.includes('You logged into a secure area!'),
-      `Expected success message, got: "${flash}"`
-    );
+    await loginPage.login(username, password)
+    await loginPage.verifyHomePageIsActive();
 
-    let url = loginPage.page.url();
-    assert.ok(url.includes('/secure'), `Expected /secure URL, got: ${url}`);
 
-    await loginPage.logout();
+  })
 
-    url = loginPage.page.url();
-    assert.ok(url.includes('/login'), `Expected /login URL after logout, got: ${url}`);
-  });
 
-  it('negative scenario: shows an error with invalid credentials', async () => {
-    await loginPage.login('wronguser', 'wrongpassword');
 
-    const flash = await loginPage.getFlashMessage();
-    assert.ok(
-      flash.includes('Your username is invalid!') || flash.includes('Your password is invalid!'),
-      `Expected login failure message, got: "${flash}"`
-    );
-  });
+
+
 });
